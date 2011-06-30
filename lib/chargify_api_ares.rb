@@ -65,6 +65,7 @@ module Chargify
       Subscription::Component.site  = site + "/subscriptions/:subscription_id"
       Subscription::Statement.site  = site + "/subscriptions/:subscription_id"
       Subscription::Transaction.site  = site + "/subscriptions/:subscription_id"
+      # Subscription::Charge.site  = site + "/subscriptions/:subscription_id"
     end
   end
   
@@ -128,6 +129,7 @@ module Chargify
       Component.find(:all, :params => params)
     end
     
+
     def payment_profile
       credit_card
     end
@@ -136,7 +138,13 @@ module Chargify
     # For more information, please see the one-time charge API docs available 
     # at: http://support.chargify.com/faqs/api/api-charges
     def charge(attrs = {})
-      post :charges, {}, attrs.to_xml(:root => :charge)
+      # c = Charge.new attrs
+      # c.subscription_id = self.id
+      # debugger
+      # result = c.save
+      # puts result
+      # Charge.new 
+      post(:charges, {}, attrs.to_xml(:root => :charge))
     end
     
     def credit(attrs = {})
@@ -156,7 +164,7 @@ module Chargify
     end
     
     def migrate(attrs = {})
-      post :migrations, :migration => attrs
+      post :migrations, {}, attrs.to_xml(:root => :migration)
     end
 
     def statement(id)
@@ -200,6 +208,10 @@ module Chargify
         Subscription.find(self.prefix_options[:subscription_id]).refund(attrs)
       end
     end
+    # 
+    # class Charge < Base
+    #   
+    # end
   end
 
   class Product < Base
@@ -239,6 +251,12 @@ module Chargify
     def component_id=(i)
       self.prefix_options[:component_id] = i
     end    
+  end
+  
+  class Charge < Base
+    def subscription_id=(i)
+      self.prefix_options[:subscription_id] = i
+    end
   end
   
   class Component < Base
