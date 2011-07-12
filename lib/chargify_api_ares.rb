@@ -65,6 +65,7 @@ module Chargify
       Subscription::Component.site  = site + "/subscriptions/:subscription_id"
       Subscription::Statement.site  = site + "/subscriptions/:subscription_id"
       Subscription::Transaction.site  = site + "/subscriptions/:subscription_id"
+      # Subscription::Adjustment.site  = site + "/subscriptions/:subscription_id"
       # Subscription::Charge.site  = site + "/subscriptions/:subscription_id"
     end
   end
@@ -147,6 +148,10 @@ module Chargify
       post(:charges, {}, attrs.to_xml(:root => :charge))
     end
     
+    def adjustment(attrs = {})
+      post(:adjustments, {}, attrs.to_xml(:root => :adjustment))
+    end
+    
     def credit(attrs = {})
       post :credits, {}, attrs.to_xml(:root => :credit)
     end
@@ -192,7 +197,7 @@ module Chargify
     
     class Statement < Base
     end
-
+    
     class Transaction < Base
       def full_refund(attrs = {})
         return false if self.transaction_type != 'payment'
@@ -263,6 +268,9 @@ module Chargify
   end
 
   class Statement < Base
+  end
+  
+  class Stat < Base
   end
 
   class Transaction < Base
