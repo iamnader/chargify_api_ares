@@ -9,7 +9,6 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Michael Klett", "Nathan Verni", "The Lab Rats @ Phase Two Labs", "Brian Rose"]
-  s.date = %q{2011-3-2}
   s.description = %q{}
   s.email = %q{mklett@grasshopper.com}
   s.extra_rdoc_files = [
